@@ -1,3 +1,5 @@
+__version__ = '0.2.0'
+
 def ip_to_int(addr: str) -> int:
     """Converts an IP address from its dotted decimal format to a 32-bit integer form"""
     octets = addr.split(".")  # split ip address into its 4 octets
