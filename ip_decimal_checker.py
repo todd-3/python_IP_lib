@@ -1,3 +1,5 @@
+from typing import Callable
+
 __version__ = '0.2.0'
 
 def ip_to_int(addr: str) -> int:
@@ -33,6 +35,14 @@ def int_to_ip(addr: int) -> str:
     octets = [str(int(binary_form[i: i+8], 2)) for i in range(0, 32, 8)]
     return ".".join(octets)
 
+def set_cidr_checker(cidr: str) -> Callable[[str], bool]:
+    """Creates a lambda function to check if an IP address falls within the CIDR range provided to this function"""
+    ranges = cidr_to_int_range(cidr)
+    return lambda addr: ranges[0] <= ip_to_int(addr) <= ranges[1]
+
 
 if __name__ == "__main__":
-    print(int_to_ip(3249125535))
+    addr_check = set_cidr_checker('192.168.0.0/16')
+    print(addr_check('192.168.50.1'))
+    print(addr_check('192.168.0.2'))
+    print(addr_check('192.164.50.1'))
