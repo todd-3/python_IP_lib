@@ -1,6 +1,6 @@
 from typing import Callable
 
-__version__ = '0.2.0'
+__version__ = '0.3.1'
 
 def ip_to_int(addr: str) -> int:
     """Converts an IP address from its dotted decimal format to a 32-bit integer form"""
@@ -32,7 +32,7 @@ def check_ip_contains(addr: str, ip_range: str) -> bool:
 def int_to_ip(addr: int) -> str:
     """Converts an integer IP address to its dotted decimal form"""
     binary_form = bin(addr)[2:].zfill(32)  # get binary 1s and 0s of addr int and leftpad to 32 characters
-    octets = [str(int(binary_form[i: i+8], 2)) for i in range(0, 32, 8)]
+    octets = [str(int(binary_form[i: i+8], 2)) for i in (0, 8, 16, 24)]
     return ".".join(octets)
 
 def set_cidr_checker(cidr: str) -> Callable[[str], bool]:
@@ -42,7 +42,4 @@ def set_cidr_checker(cidr: str) -> Callable[[str], bool]:
 
 
 if __name__ == "__main__":
-    addr_check = set_cidr_checker('192.168.0.0/16')
-    print(addr_check('192.168.50.1'))
-    print(addr_check('192.168.0.2'))
-    print(addr_check('192.164.50.1'))
+    print(int_to_ip(3232235520))
